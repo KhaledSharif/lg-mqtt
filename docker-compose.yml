@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  lgtv:
+    build: ./lgtv2mqtt
+    depends_on:
+      - mosquitto
+    environment:
+      - TV_IP_ADDRESS
+
+  python:
+    build: ./python
+    depends_on:
+      - mosquitto
+      - lgtv
+    ports:
+      - "80:80"
+
+  mosquitto:
+    image: eclipse-mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
